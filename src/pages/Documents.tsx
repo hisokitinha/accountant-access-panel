@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useDocuments, Document } from '@/context/DocumentContext';
@@ -15,7 +14,6 @@ import {
   Download, 
   Trash, 
   FileText, 
-  FilePdf, 
   FileSpreadsheet,
   File
 } from 'lucide-react';
@@ -58,25 +56,20 @@ const Documents = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // Check if we have a client ID from query params
   const queryParams = new URLSearchParams(location.search);
   const clientIdFromQuery = queryParams.get('clientId');
   
-  // Initialize client filter from query params if present
   React.useEffect(() => {
     if (clientIdFromQuery) {
       setClientFilter(clientIdFromQuery);
-      // Auto-open upload dialog if we have a client ID
       setUploadDialogOpen(true);
     }
   }, [clientIdFromQuery]);
 
-  // Filter documents based on search query and client filter
   const filteredDocuments = documents.filter(doc => {
     const matchesSearch = doc.name.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesClient = clientFilter === 'all' || doc.clientId === clientFilter;
     
-    // For client role, only show documents for the current user
     if (user?.role === 'client') {
       return matchesSearch && doc.clientId === user.id;
     }
@@ -87,7 +80,7 @@ const Documents = () => {
   const getDocumentIcon = (doc: Document) => {
     switch (doc.type.toLowerCase()) {
       case 'pdf':
-        return <FilePdf className="h-5 w-5 text-red-500" />;
+        return <FileText className="h-5 w-5 text-red-500" />;
       case 'xlsx':
       case 'xls':
       case 'csv':

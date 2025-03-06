@@ -4,7 +4,7 @@ import { useDocuments, Document } from '@/context/DocumentContext';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
-import { File, FileSpreadsheet, FileText, FilePdf, Download } from 'lucide-react';
+import { File, FileSpreadsheet, FileText, Download } from 'lucide-react';
 
 interface RecentDocumentsProps {
   limit?: number;
@@ -32,7 +32,7 @@ const RecentDocuments: React.FC<RecentDocumentsProps> = ({
   const getDocumentIcon = (doc: Document) => {
     switch (doc.type.toLowerCase()) {
       case 'pdf':
-        return <FilePdf className="h-4 w-4 text-red-500" />;
+        return <FileText className="h-4 w-4 text-red-500" />;
       case 'xlsx':
       case 'xls':
       case 'csv':
