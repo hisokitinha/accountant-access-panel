@@ -4,7 +4,8 @@ import { useDocuments, Document } from '@/context/DocumentContext';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
-import { File, FileSpreadsheet, FileText, Download } from 'lucide-react';
+import { Download } from 'lucide-react';
+import DocumentIcon from '@/components/documents/DocumentIcon';
 
 interface RecentDocumentsProps {
   limit?: number;
@@ -29,23 +30,6 @@ const RecentDocuments: React.FC<RecentDocumentsProps> = ({
     .sort((a, b) => b.uploadedAt.getTime() - a.uploadedAt.getTime())
     .slice(0, limit);
 
-  const getDocumentIcon = (doc: Document) => {
-    switch (doc.type.toLowerCase()) {
-      case 'pdf':
-        return <FileText className="h-4 w-4 text-red-500" />;
-      case 'xlsx':
-      case 'xls':
-      case 'csv':
-        return <FileSpreadsheet className="h-4 w-4 text-green-500" />;
-      case 'doc':
-      case 'docx':
-      case 'txt':
-        return <FileText className="h-4 w-4 text-blue-500" />;
-      default:
-        return <File className="h-4 w-4 text-gray-500" />;
-    }
-  };
-
   const formatFileSize = (bytes: number) => {
     if (bytes < 1024) return bytes + ' B';
     if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
@@ -63,7 +47,7 @@ const RecentDocuments: React.FC<RecentDocumentsProps> = ({
                 className="flex items-center justify-between p-2 rounded-md transition-colors hover:bg-muted/50"
               >
                 <div className="flex items-center gap-3">
-                  {getDocumentIcon(doc)}
+                  <DocumentIcon document={doc} size={4} />
                   <div>
                     <p className="font-medium text-sm">{doc.name}</p>
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
